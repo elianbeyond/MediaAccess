@@ -53,4 +53,6 @@
         android:onClick="onRecordVideoClick"
         android:text="Record Video" />
 
+
+
 </RelativeLayout>

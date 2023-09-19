@@ -25,15 +25,9 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentActivity;
 
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MainActivity extends Activity {
 
     //request codes
     private static final int MY_PERMISSIONS_REQUEST_OPEN_CAMERA = 101;
@@ -85,11 +79,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private final MediaPlayer player = null;
     private GoogleMap mMap;
 
+    private String city;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week05);
+
+
 
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -110,12 +108,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 });
-        if (mMap==null){
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
+
+        //获取地点信息
+
 
     }
 
@@ -394,28 +389,4 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        if (mMap != null) {
-            // Map is ready
-            Toast.makeText(this, "Map is ready to be used!", Toast.LENGTH_SHORT).show();
-
-            // Add a marker in Sydney and move the camera
-            LatLng sydney = new LatLng(-33.8692, 151.2089);
-            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-            // Enable zoom controls
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            // Animate the camera to zoom into the map
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11));
-        } else {
-            Toast.makeText(this, "Error - Map was null!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 }
